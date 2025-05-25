@@ -6,9 +6,10 @@ import { ElConfigProvider } from 'element-plus'
 </script>
 
 <template>
-  <el-config-provider :size="size" :z-index="zIndex">
-    <app />
-  </el-config-provider>
+  <header>
+
+  </header>
+
   <main>
     <SoloGool2>
 
