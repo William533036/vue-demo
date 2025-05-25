@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>数据库管理系统</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/echarts/5.5.0/echarts.min.js"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#2563eb',
+                        secondary: '#6b7280'
+                    },
+                    borderRadius: {
+                        'none': '0px',
+                        'sm': '2px',
+                        DEFAULT: '4px',
+                        'md': '8px',
+                        'lg': '12px',
+                        'xl': '16px',
+                        '2xl': '20px',
+                        '3xl': '24px',
+                        'full': '9999px',
+                        'button': '4px'
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        input[type="number"]::-webkit-inner-spin-button,
+        input[type="number"]::-webkit-outer-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+        .menu-item {
+            display: flex;
+            align-items: center;
+            padding: 12px 16px;
+            margin-top: 8px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .menu-item:hover {
+            background-color: rgb(239 246 255);
+        }
+        .menu-item.active {
+            background-color: rgb(239 246 255);
+            color: rgb(37 99 235);
+        }
+        .menu-icon {
+            width: 20px;
+            height: 20px;
+            margin-right: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        .table th, .table td {
+            padding: 12px 16px;
+            text-align: left;
+            border-bottom: 1px solid #e5e7eb;
+        }
+        .table th {
+            background-color: #f9fafb;
+            font-weight: 500;
+        }
+        .tag {
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+        }
+        .tag-success {
+            background-color: #ecfdf5;
+            color: #059669;
+        }
+        .tag-warning {
+            background-color: #fffbeb;
+            color: #d97706;
+        }
+        .tag-info {
+            background-color: #f3f4f6;
+            color: #4b5563;
+        }
+    </style>
+</head>
+<body class="min-h-[1024px] bg-gray-50">
+<div class="flex h-screen">
+    <div class="w-64 bg-white border-r border-gray-200">
+        <div class="h-16 flex items-center px-6 border-b border-gray-200">
+            <span class="text-2xl font-['Pacifico'] text-primary">logo</span>
+        </div>
+        <div class="p-4">
+            <div class="menu-item active">
+                <div class="menu-icon">
+                    <i class="fas fa-database"></i>
+                </div>
+                <span>数据库管理</span>
+            </div>
+            <div class="menu-item">
+                <div class="menu-icon">
+                    <i class="fas fa-cog"></i>
+                </div>
+                <span>翻译配置</span>
+            </div>
+            <div class="menu-item">
+                <div class="menu-icon">
+                    <i class="fas fa-history"></i>
+                </div>
+                <span>日志查看</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="flex-1">
+        <header class="h-16 bg-white border-b border-gray-200 px-8 flex items-center justify-between">
+            <h1 class="text-lg font-medium">数据库管理</h1>
+            <div class="flex items-center">
+                <span class="text-sm text-gray-600 mr-4">王小明</span>
+                <button class="text-sm text-gray-600 hover:text-primary p-2 !rounded-button">
+                    <i class="fas fa-power-off"></i>
+                </button>
+            </div>
+        </header>
+
+        <main class="p-8">
+            <div class="bg-white rounded-lg shadow">
+                <div class="p-6 border-b border-gray-200">
+                    <div class="flex items-center justify-between">
+                        <div class="flex space-x-4">
+                            <button class="bg-primary text-white px-4 py-2 !rounded-button hover:bg-blue-700">新增配置</button>
+                            <button class="bg-white text-gray-700 px-4 py-2 border border-gray-300 !rounded-button hover:bg-gray-50">批量导入</button>
+                            <button class="bg-white text-gray-700 px-4 py-2 border border-gray-300 !rounded-button hover:bg-gray-50">导出数据</button>
+                        </div>
+                        <div class="relative">
+                            <input type="text" placeholder="搜索配置" class="w-64 pl-10 pr-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent">
+                            <i class="fas fa-search absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th>源语言</th>
+                        <th>目标语言</th>
+                        <th>翻译状态</th>
+                        <th>更新时间</th>
+                        <th>操作</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>中文</td>
+                        <td>英文</td>
+                        <td><span class="tag tag-success">已完成</span></td>
+                        <td>2024-01-15 14:30</td>
+                        <td>
+                            <button class="text-primary hover:text-blue-700 mr-4">编辑</button>
+                            <button class="text-red-600 hover:text-red-700">删除</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>中文</td>
+                        <td>日文</td>
+                        <td><span class="tag tag-warning">进行中</span></td>
+                        <td>2024-01-15 10:15</td>
+                        <td>
+                            <button class="text-primary hover:text-blue-700 mr-4">编辑</button>
+                            <button class="text-red-600 hover:text-red-700">删除</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>中文</td>
+                        <td>韩文</td>
+                        <td><span class="tag tag-info">未开始</span></td>
+                        <td>2024-01-14 16:45</td>
+                        <td>
+                            <button class="text-primary hover:text-blue-700 mr-4">编辑</button>
+                            <button class="text-red-600 hover:text-red-700">删除</button>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+
+                <div class="px-6 py-4 flex items-center justify-between border-t border-gray-200">
+                    <div>
+                        <p class="text-sm text-gray-700">
+                            显示第 <span class="font-medium">1</span> 到 <span class="font-medium">10</span> 条，共 <span class="font-medium">20</span> 条记录
+                        </p>
+                    </div>
+                    <div class="flex items-center space-x-2">
+                        <button class="px-3 py-1 border border-gray-300 rounded-md hover:bg-gray-50 disabled:opacity-50" disabled>上一页</button>
+                        <button class="px-3 py-1 bg-primary text-white rounded-md">1</button>
+                        <button class="px-3 py-1 border border-gray-300 rounded-md hover:bg-gray-50">2</button>
+                        <button class="px-3 py-1 border border-gray-300 rounded-md hover:bg-gray-50">下一页</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mt-8 bg-white rounded-lg shadow">
+<!--                <div class="p-6 border-b border-gray-200">-->
+<!--                    <h2 class="text-lg font-medium">翻译进度统计</h2>-->
+<!--                </div>-->
+<!--                <div class="p-6">-->
+<!--                    <div id="chart" style="height: 400px;"></div>-->
+<!--                </div>-->
+            </div>
+        </main>
+    </div>
+</div>
+
+<script>
+    const chart = echarts.init(document.getElementById('chart'));
+    const option = {
+        animation: false,
+        tooltip: {
+            trigger: 'axis'
+        },
+        legend: {
+            data: ['已完成', '进行中', '未开始']
+        },
+        grid: {
+            left: '3%',
+            right: '4%',
+            bottom: '3%',
+            containLabel: true
+        },
+        xAxis: {
+            type: 'category',
+            boundaryGap: false,
+            data: ['周一', '周二', '周三', '周四', '周五', '周六', '周日']
+        },
+        yAxis: {
+            type: 'value'
+        },
+        series: [
+            {
+                name: '已完成',
+                type: 'line',
+                data: [120, 132, 101, 134, 90, 230, 210]
+            },
+            {
+                name: '进行中',
+                type: 'line',
+                data: [220, 182, 191, 234, 290, 330, 310]
+            },
+            {
+                name: '未开始',
+                type: 'line',
+                data: [150, 232, 201, 154, 190, 330, 410]
+            }
+        ]
+    };
+    chart.setOption(option);
+</script>
+</body>
+</html>
