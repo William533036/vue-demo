@@ -1,0 +1,32 @@
+@import url('https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900&display=swap');
+/* 全局样式重置 */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Roboto', sans-serif;
+}
+
+/* Section容器样式 */
+section {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-color: #0e1623; /* 修正颜色语法 */
+    overflow: hidden;
+}
+
+section .text {
+    position: relative;
+    font-size: 5em;
+    text-align: center;
+    color: #00fe77;
+    -webkit-box-reflect: below -0.46em -webkit-linear-gradient(transparent, #0004);
+}
+
+section .text span {
+    position: relative;
+    display: inline-block;
+}
